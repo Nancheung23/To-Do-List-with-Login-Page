@@ -4,13 +4,14 @@ const cors = require('cors')
 
 const app = express()
 app.use(bodyParser.json())
-app.use(cors)
+app.use(cors())
+
 const PORT = 5000
 const database = [
     {
         id: 1,
-        username: 'Admin',
-        password: 'Admin',
+        username: 'admin',
+        password: 'admin',
     },
 ]
 
@@ -18,24 +19,27 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
 
-app.post('/api/users', (req, res) => {
-    const { username, password } = req.body
+app.post('/createUser', (req, res) => {
     const user = {
         id: database.length + 1,
-        username : username,
-        password : password,
+        username: req.body.username,
+        password: req.body.password,
     }
+    console.log(user)
     database.push(user)
     res.json(user)
 })
 
-app.get('/api/users/check', (req, res) => {
-    const { username, password } = req.body
-    database.forEach((user) => {
-        if (user.username === username && user.password === password) {
-            // verify user
-            res.send(true, user)
+app.post('/submit', (req, res) => {
+    database.find((user) => {
+        if (user.username === req.body.username && user.password === req.body.password) {
+            console.log({ username: req.body.username, password: req.body.password, valid: true })
+            res.send({ valid: true })
         }
     })
-    res.send(false)
+    res.send({ valid: false })
+})
+
+app.get('/users', (req, res) => {
+    res.send(database)
 })
