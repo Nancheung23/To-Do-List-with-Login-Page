@@ -31,13 +31,17 @@ app.post('/createUser', (req, res) => {
 })
 
 app.post('/submit', (req, res) => {
+    let flag = false
     database.find((user) => {
         if (user.username === req.body.username && user.password === req.body.password) {
             console.log({ username: req.body.username, password: req.body.password, valid: true })
-            res.send({ valid: true })
+            res.send({ valid: true, info : 'pass' })
+            flag = true
         }
     })
-    res.send({ valid: false })
+    if(flag === false) {
+        res.send({ valid: false, info : 'fail' })
+    }
 })
 
 app.get('/users', (req, res) => {

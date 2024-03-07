@@ -1,4 +1,5 @@
 const fetchPostLogin = async (userinfo) => {
+    console.log(JSON.stringify(userinfo))
     try {
         const response = await fetch(`http://localhost:5000/submit`, {
             method: 'POST',
@@ -8,10 +9,9 @@ const fetchPostLogin = async (userinfo) => {
             },
             body: JSON.stringify(userinfo)
         })
-        if (response === 200) {
+        if (response.status === 200) {
             const data = await response.json()
-            console.log(data)
-            return data.valid
+            return data
         }
     } catch (error) {
         console.log(error)
@@ -19,19 +19,23 @@ const fetchPostLogin = async (userinfo) => {
 }
 
 const submitEvent = async () => {
-    const usernameElement = document.getElementById('username')
-    let username = usernameElement.value
-    const passwordElement = document.getElementById('password')
-    let password = passwordElement.value
-    let userinfo = {
-        'username': username,
-        'password': password,
-    }
     const submit = document.getElementById('submit')
     submit.addEventListener('click', async (e) => {
         e.preventDefault()
+        const username = document.getElementById('username').value
+        const password = document.getElementById('password').value
+        const userinfo = {
+            username: username,
+            password: password,
+        }
         try {
-            await fetchPostLogin(userinfo)
+            const check = await fetchPostLogin(userinfo)
+            console.log(check)
+            if(check.valid === true) {
+                console.log('correct userinfo')
+            } else {
+                console.log('incorrect userinfo')
+            }
         } catch (error) {
             console.log(error)
         }
