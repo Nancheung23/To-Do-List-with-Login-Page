@@ -29,14 +29,16 @@ app.get('/api/users', (req, res) => {
 
 // resolve submit
 app.post('/api/submit', (req, res) => {
-    let validFlag = false
-    userinfo.find(user => {
+    let validUser = userinfo.find(user => {
         if(user.username === req.body.username && user.password === req.body.password) {
-            res.send({ valid : true, info : { username : req.body.username, password : req.body.password}})
+            return user
         }
     })
-    if(!validFlag) {
-        res.send({ valid : true, info : 'incorrect userinfo'})
+    // send only one response
+    if(validUser) {
+        res.status(200).send({ valid : true, info : { username : req.body.username, password : req.body.password}})
+    } else {
+        res.status(400).send({ valid : false, info : 'incorrect userinfo'})
     }
 })
 

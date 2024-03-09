@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../asset/img/login.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 10%;
+    margin-top: 8%;
+    /* font */
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    text-shadow: 0.08rem 0.08rem 0.2rem gainsboro;
+}
+
+.loginArea {
+    margin-top: 3%;
+    max-width: 66%;
+    width: 30%;
+    height: 50%;
+    padding: 5vh 3vw;
+    line-height: 5vh;
+    box-shadow: 0.1vw 0.1vw 0.5vw rgba(238, 238, 238, 0.4);
+    border-radius: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginArea h1,
+label {
+    /* font */
+    font-family: "Lilita One", sans-serif;
+    font-weight: lighter;
+    font-style: normal;
+    color: white;
+    text-shadow: 0.1rem 0.1rem 0.1rem gray;
+}
+
+.loginArea h1 {
+    font-size: 2rem;
+    margin: 3vh 2vw;
+}
+
+label {
+    font-size: 1.3rem;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+label,
+input {
+    margin: 0 auto;
+    text-align: center;
+}
+
+#username,
+#password {
+    border-radius: 2vw;
+    width: 20vw;
+    height: 5vh;
+    /* font */
+    font-family: "Changa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: light;
+    font-style: normal;
+    font-size: 1.5rem;
+    background-color: beige;
+}
+
+#submitBtn {
+    width: 8vw;
+    height: 4vh;
+    border-radius: 1vw;
+    margin: 2vh 2vw;
+    /* font */
+    font-family: "Lilita One", sans-serif;
+    font-weight: lighter;
+    font-style: normal;
+    line-height: 4vh;
+    font-size: 1.3rem;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.links>a {
+    text-decoration: none;
+    /* font */
+    font-family: "Changa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: light;
+    font-style: normal;
+    font-size: 1rem;
+    color: aliceblue;
+}
