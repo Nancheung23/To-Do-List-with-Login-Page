@@ -35,7 +35,8 @@ body {
     height: 50%;
     padding: 5vh 3vw;
     line-height: 5vh;
-    box-shadow: 0.1vw 0.1vw 0.5vw rgba(238, 238, 238, 0.4);
+    box-shadow: 0.1vw 0.1vw 0.1vw rgba(238, 238, 238, 0.2);
+    background-color: rgba(238, 238, 238, 0.15);
     border-radius: 5vh;
     display: flex;
     flex-direction: column;
@@ -86,7 +87,7 @@ input {
     font-weight: light;
     font-style: normal;
     font-size: 1.5rem;
-    background-color: beige;
+    background-color: rgba(169, 169, 169, 0.4);
 }
 
 #submitBtn {
@@ -99,8 +100,14 @@ input {
     font-weight: lighter;
     font-style: normal;
     line-height: 4vh;
-    font-size: 1.3rem;
-    color: rgba(0, 0, 0, 0.7);
+    font-size: 1rem;
+    background-color: rgba(169, 169, 169, 0.4);
+    color: rgb(255, 255, 255);
+    transition: 0.3s ease;
+}
+
+#submitBtn:hover {
+    transform: scale(1.1, 1.1);
 }
 
 .links {
@@ -119,4 +126,76 @@ input {
     font-style: normal;
     font-size: 1rem;
     color: aliceblue;
+}
+
+.links>a>span:hover {
+    text-decoration: dotted;
+    color: rgb(10, 103, 224);
+}
+
+@media screen and (max-width : 500px) {
+    body {
+        background-size: contain;
+    }
+
+    .title {
+        margin-top: 30%;
+    }
+
+    .loginArea {
+        width: 80vw;
+        height: auto;
+        margin-top: 10%;
+    }
+
+    #username,
+    #password {
+        width: 60vw;
+    }
+
+    #submitBtn {
+        width: 30vw;
+        border-radius: 5vh;
+    }
+}
+
+@media screen and (max-width : 1070px){
+    body {
+        background-size: cover;
+    }
+
+    label {
+        font-size: 2rem;
+    }
+
+    .loginArea {
+        width: 90vw;
+        height: auto;
+        margin-top: 10%;
+    }
+
+    .loginArea>h1 {
+        font-size: 3rem;
+    }
+
+    .title {
+        margin-top: 20%;
+        font-size: 2rem;
+    }
+
+    #submitBtn {
+        width: 40vw;
+        border-radius: 3vh;
+        font-size: 2rem;
+    }
+
+    #username,
+    #password {
+        width: 60vw;
+        font-size: 2rem;
+    }
+
+    .links>a {
+        font-size: 2rem;
+    }
 }
