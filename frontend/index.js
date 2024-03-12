@@ -111,6 +111,7 @@ const getDataList = async (info) => {
     try {
         const container = document.getElementById('container')
         const response = await fetchGetUserInfo(info)
+        // initailize
         response.data.forEach(async element => {
             let index = response.data.indexOf(element)
             const dataBlock = document.createElement('div')
@@ -118,15 +119,13 @@ const getDataList = async (info) => {
             let content = element.dataContent.content
             let importance = element.dataContent.importance
             dataBlock.innerHTML = `
-            <form action='' method='post'>
-                <span> ${updateTime} </span>
-                <span id='content'> ${content} </span>
-                <span id='importance'> ${importance} </span>
-            </form>    
+            <span> ${updateTime} </span>
+            <span id='content'> ${content} </span>
+            <span id='importance'> ${importance} </span> 
             `
             // add buttons
             const methodsArea = document.createElement('div')
-            // remove
+            // remove button
             const labelRemove = document.createElement('label')
             labelRemove.innerHTML = `
                 <span>delete item</span>
@@ -137,17 +136,21 @@ const getDataList = async (info) => {
             removeBtn.name = 'remove'
             removeBtn.type = 'button'
             removeBtn.value = 'remove'
-            removeBtn.addEventListener('click', async () => {
-                const response = await fetchRemoveUserData({
-                    id: 0,
-                    data: {
-                        dataId: index,
+            try {
+                removeBtn.addEventListener('click', async () => {
+                    const response = await fetchRemoveUserData({
+                        id: 0,
+                        data: {
+                            dataId: index,
+                        }
+                    })
+                    if (response.valid === true) {
+                        dataBlock.innerHTML = ''
                     }
                 })
-                if (response.valid === true) {
-                    dataBlock.innerHTML = ''
-                }
-            })
+            } catch (error) {
+                console.log(error)
+            }
             // change
             const labelModify = document.createElement('label')
             labelModify.innerHTML = `
@@ -159,39 +162,58 @@ const getDataList = async (info) => {
             modifyBtn.name = 'modify'
             modifyBtn.type = 'button'
             modifyBtn.value = 'modify'
-            modifyBtn.addEventListener('click', async (e) => {
-                e.preventDefault()
-                const contentElement = document.getElementById('content')
-                contentElement.innerHTML = `
-                <input id="contentValue" type="text" placeholder="${content}">
-                <input id="submitChange" type="button" name="submit" value="confirm">
-                `
-                const submitBtn = document.getElementById('submitChange')
-                submitBtn.addEventListener('click', async (e) => {
+            try {
+                modifyBtn.addEventListener('click', async (e) => {
                     e.preventDefault()
-                    let changeInfo = {
-                        id: 0,
-                        data: {
-                            dataId: index,
-                            dataContent: {
-                                "content": document.getElementById('contentValue').value,
-                                "importance": "normal"
+                    // modify content
+                    const contentElement = document.getElementById('content')
+                    contentElement.innerHTML = `
+                    <input id="contentValue_${index}" type="text" placeholder="${content}"/>
+                    `
+                    // modify importance
+                    const importanceElement = document.getElementById('importance')
+                    importanceElement.innerHTML = `
+                    <select name="levels" id='levelSelect_${index}'>
+                        <option value="">--Choose Importance--</option>
+                        <option value="Very Important">Very Important</option>
+                        <option value="Important">Important</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Not Important">Not Important</option>
+                    </select>
+                    <input id ="submitChange_${index}" type="button" name="submit" value="confirm"/>
+                    `
+                    const submitBtn = document.getElementById(`submitChange_${index}`)
+                    submitBtn.addEventListener('click', async (e) => {
+                        e.preventDefault()
+                        let changeInfo = {
+                            id: info.id,
+                            data: {
+                                dataId: index,
+                                dataContent: {
+                                    "content": document.getElementById(`contentValue_${index}`).value,
+                                    "importance": document.getElementById(`levelSelect_${index}`).value
+                                }
                             }
                         }
-                    }
-                    const response = await fetchChangeUserInfo(changeInfo)
-                    if(response.valid === true) {
-                        const data = await fetchGetUserInfo(info)
-                        contentElement.innerHTML = `<span id='content'> ${data.data[index].dataContent.content} </span>`
-                    }
-                })
-            })
+                        const response = await fetchChangeUserInfo(changeInfo)
+                        if (response.valid === true) {
+                            const data = await fetchGetUserInfo(info)
+                            contentElement.innerHTML = `<span id='content'> ${data.data[index].dataContent.content} </span>`
+                            importanceElement.innerHTML = `<span id='importance'> ${data.data[index].dataContent.importance} </span>`
+                        }
+                    })
 
+                })
+            } catch (error) {
+                console.log(error)
+            }
+            // append to dataBlock
             methodsArea.appendChild(labelModify)
             methodsArea.appendChild(modifyBtn)
             methodsArea.appendChild(labelRemove)
             methodsArea.appendChild(removeBtn)
             dataBlock.appendChild(methodsArea)
+            // append to container
             container.appendChild(dataBlock)
         })
     } catch (error) {
@@ -199,4 +221,66 @@ const getDataList = async (info) => {
     }
 }
 
+// add new userinfo to webpage
+const addInDataList = async (info) => {
+    try {
+        const container = document.getElementById('container')
+        const addArea = document.createElement('div')
+        addArea.innerHTML = `
+        <input id="addBtn" type="button" name="addElement" value="Add"/>
+        `
+        container.appendChild(addArea)
+        const addBtn = document.getElementById('addBtn')
+        try {
+            addBtn.addEventListener('click', async () => {
+                const dataBlock = document.createElement('div')
+                dataBlock.innerHTML = `
+                <input id="contentValue" type="text" placeholder="write description"/>
+                <select name="levels" id='levelSelect'>
+                    <option value="">--Choose Importance--</option>
+                    <option value="Very Important">Very Important</option>
+                    <option value="Important">Important</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Not Important">Not Important</option>
+                </select>
+                <input id ="submitChange" type="button" name="submit" value="confirm"/>
+                `
+                container.appendChild(dataBlock)
+                const submitBtn = document.getElementById('submitChange')
+                submitBtn.addEventListener('click', async(e) => {
+                    e.preventDefault()
+                    const contentValue = document.getElementById('contentValue').value
+                    const importanceValue = document.getElementById('levelSelect').value
+                    const response = await fetchAddUserData({
+                        id : info.id,
+                        data : [{
+                            dataContent : {
+                                content : contentValue,
+                                importance : importanceValue,
+                            }
+                        }]
+                    })
+                    if(response.valid === true) {
+                        const data = await fetchGetUserInfo(info)
+                        const element = data.data[data.data.length-1]
+                        const updateTime = moment(element.dataContent.updateTime)
+                        let content = element.dataContent.content
+                        let importance = element.dataContent.importance
+                        dataBlock.innerHTML = `
+                        <span> ${updateTime} </span>
+                        <span id='content'> ${content} </span>
+                        <span id='importance'> ${importance} </span> 
+                        `
+                    }
+                })
+            })
+        } catch (error) {
+            
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+addInDataList(getInfo)
 getDataList(getInfo)
