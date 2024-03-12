@@ -5,7 +5,7 @@ const cors = require('cors')
 const moment = require('moment');
 const PORT = 5000
 
-// create instance
+// create app instance
 const app = express()
 moment().format()
 app.use(bodyParser.json())
@@ -16,7 +16,7 @@ app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)
 })
 
-// userinfo
+// userinfo db
 const userinfo = [
     {
         id: 0,
@@ -25,7 +25,7 @@ const userinfo = [
     },
 ]
 
-// userdata
+// userdata db
 const userdata = [
     {
         id: 0,
@@ -42,11 +42,12 @@ const userdata = [
     },
 ]
 
+// resolve login info
 app.get('/api/users', (req, res) => {
     res.status(200).send(userinfo)
 })
 
-// resolve submit
+// resolve login submit
 app.post('/api/submit', (req, res) => {
     let validUser = userinfo.find(user => {
         if (user.username === req.body.username && user.password === req.body.password) {
@@ -61,41 +62,53 @@ app.post('/api/submit', (req, res) => {
     }
 })
 
-// resolve create
+// resolve login create + verify
 app.post('/api/create', (req, res) => {
     const length = userinfo.length
-    const user = {
-        id: length,
-        username: req.body.username,
-        password: req.body.password
-    }
-    userinfo.push(user)
-    const newLength = userinfo.length
-    if ((newLength - length) === 1) {
-        res.status(200).send({ valid: true, info: 'Server: add user successfully' })
+    const name = req.body.username
+    const password = req.body.password
+    let validUser = userinfo.find(user => {
+        if(user.username === name) {
+            return user
+        }
+    })
+    if(validUser) {
+        res.status(400).send({ valid: false, info: `Server: user already exists::${req.body.username}` })
     } else {
-        res.status(400).send({ valid: false, info: `Server: failed to add user ${req.body.username}` })
+        const user = {
+            id: length,
+            username: name,
+            password: password
+        }
+        userinfo.push(user)
+        const newLength = userinfo.length
+        if ((newLength - length) === 1) {
+            res.status(200).send({ valid: true, info: 'Server: add user successfully' })
+        } else {
+            res.status(400).send({ valid: false, info: `Server: failed to add user ${req.body.username}` })
+        }
     }
 })
 
-// resolve change (*need modify)
+// resolve login change password (need password verification)
 app.post('/api/change', (req, res) => {
-    let changeFlag = false
-    userinfo.find(user => {
+    let validUser = userinfo.find(user => {
         if (user.username === req.body.username) {
             user.password = req.body.password
-            res.status(200).send({ valid: true, info: 'Server: password changed' })
+            return user
         }
     })
-    if (!changeFlag) {
+    if (validUser) {
+        res.status(200).send({ valid: true, info: 'Server: password changed' })
+    } else {
         res.status(400).send({ valid: false, info: `Server: password failed to change, no user ${req.body.username}` })
     }
 })
 
-// resolve userdata
-app.get(`/api/userdata/get`, (req, res) => {
+// resolve get userdata
+app.get(`/api/userdata/get/:id`, (req, res) => {
     let validUserData = userdata.find(user => {
-        if (req.body.id === user.id) {
+        if (parseInt(req.params.id) === user.id) {
             return user
         }
     })
@@ -107,19 +120,19 @@ app.get(`/api/userdata/get`, (req, res) => {
 })
 
 // resolve add userdata
-app.post(`/api/userdata/add`, (req, res) => {
+app.post(`/api/userdata/add/:id`, (req, res) => {
     let validUserData = userdata.find(user => {
-        if (req.body.id === user.id) {
+        if (parseInt(req.params.id) === user.id) {
             return user
         }
     })
     if(validUserData) {
         const newData = {
-            dataId : userdata.data.length + 1,
+            dataId : validUserData.data.length,
             dataContent : {
                 updatetime : moment(),
-                content: req.body.data.dataContent.content,
-                importance: req.body.data.dataContent.importance,
+                content : req.body.data[0].dataContent.content,
+                importance : req.body.data[0].dataContent.importance,
             }
         }
         validUserData.data.push(newData)
@@ -130,18 +143,20 @@ app.post(`/api/userdata/add`, (req, res) => {
 })
 
 // resolve change userdata
-app.post(`/api/userdata/change`, (req, res) => {
+app.post(`/api/userdata/change/:id`, (req, res) => {
     let validUserData = userdata.find(user => {
-        if (req.body.id === user.id) {
-            user.data.find(data => {
-                if(req.body.data.dataId === data.dataId) {
-                    return data
+        if (parseInt(req.params.id) === user.id) {
+            return user.data.find(element => {
+                if(req.body.data.dataId === element.dataId) {
+                    element.dataContent.updatetime = moment()
+                    element.dataContent.content = req.body.data.dataContent.content
+                    element.dataContent.importance = req.body.data.dataContent.importance
+                    return user.data
                 }
             })
         }
     })
     if(validUserData) {
-        validUserData.dataContent = req.body.data.dataContent
         res.status(200).send({ valid : true, method : '/api/userdata/change'})
     } else {
         res.status(400).send({ valid : false, method : '/api/userdata/change'})
@@ -149,12 +164,13 @@ app.post(`/api/userdata/change`, (req, res) => {
 })
 
 // resolve remove userdata
-app.post(`/api/userdata/remove`, (req, res) => {
+app.post(`/api/userdata/remove/:id`, (req, res) => {
     let validUserData = userdata.find(user => {
-        if(req.body.id === user.id) {
-            user.data.find(data => {
-                if(data.dataId === req.body.data.dataId) {
-                    user.data.splice(data)
+        if(parseInt(req.params.id) === user.id) {
+            return user.data.find(element => {
+                if(element.dataId === req.body.data.dataId) {
+                    // delete one
+                    user.data.splice(element, 1)
                     return user.data
                 }
             })

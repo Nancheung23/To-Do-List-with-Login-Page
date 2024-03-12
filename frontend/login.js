@@ -15,6 +15,52 @@ const submitFetch = async (info) => {
     }
 }
 
+// fetch from '/api/create'
+const createFetch = async (info) => {
+    try {
+        const response = await fetch('http://localhost:5000/api/create', {
+            method : 'POST',
+            headers : {
+                'Content-type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+            body : JSON.stringify(info)
+        })
+        return response.json()
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// input example of '/api/create'
+const createInfo = {
+        username : 'nan',
+        password : '123'
+}
+
+// fetch from '/api/change'
+const changeFetch = async(info) => {
+    try {
+        const response = await fetch('http://localhost:5000/api/change', {
+            method : 'POST',
+            headers : {
+                'Content-type' : 'application/json',
+                'Accept' : 'application/json'
+            },
+            body : JSON.stringify(info)
+        })
+        return response.json()
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// input example of '/api/change'
+const changeInfo = {
+    username : 'nan',
+    password : 'new password'
+}
+
 // add event listener to submit btn and check user info
 const submitMethod = () => {
     const submitBtn = document.getElementById('submitBtn')
@@ -35,4 +81,6 @@ const submitMethod = () => {
     })
 }
 
+// console.log(createFetch(createInfo))
+// console.log(changeFetch(changeInfo))
 submitMethod()
