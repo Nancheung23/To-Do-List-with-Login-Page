@@ -204,25 +204,25 @@ const addInDataList = async (info) => {
             const response = await fetchGetUserInfo(getInfo)
             let length = response.data.length
             addBtn.addEventListener('click', async () => {
-                length = length + 1
+                const uniqueId = new Date().getTime();
                 const dataBlock = document.createElement('div')
                 dataBlock.innerHTML = `
-                <input id="contentValue_${length}" type="text" placeholder="write description"/>
-                <select name="levels" id='levelSelect_${length}'>
+                <input id="contentValue_${uniqueId}" type="text" placeholder="write description"/>
+                <select name="levels" id='levelSelect_${uniqueId}'>
                     <option value="">--Choose Importance--</option>
                     <option value="Very Important">Very Important</option>
                     <option value="Important">Important</option>
                     <option value="Normal">Normal</option>
                     <option value="Not Important">Not Important</option>
                 </select>
-                <input id ="submitChange_${length}" type="button" name="submit" value="confirm"/>
+                <input id ="submitChange_${uniqueId}" type="button" name="submit" value="confirm"/>
                 `
                 container.appendChild(dataBlock)
-                const submitBtn = document.getElementById(`submitChange_${length}`)
+                const submitBtn = document.getElementById(`submitChange_${uniqueId}`)
                 submitBtn.addEventListener('click', async (e) => {
                     e.preventDefault()
-                    const contentValue = document.getElementById(`contentValue_${length}`).value
-                    const importanceValue = document.getElementById(`levelSelect_${length}`).value
+                    const contentValue = document.getElementById(`contentValue_${uniqueId}`).value
+                    const importanceValue = document.getElementById(`levelSelect_${uniqueId}`).value
                     const response = await fetchUserInfo({
                         id: info.id,
                         data: [{
