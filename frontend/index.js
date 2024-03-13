@@ -255,5 +255,12 @@ const addInDataList = async (info) => {
     }
 }
 
-addInDataList(getInfo)
-getDataList(getInfo)
+// get userId from localStorage
+const userId = localStorage.getItem('userId')
+const info = {
+    id : userId,
+}
+
+// execute
+addInDataList(info)
+getDataList(info)

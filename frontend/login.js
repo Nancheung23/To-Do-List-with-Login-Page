@@ -1,7 +1,7 @@
-// fetch from 'api/submit'
-const submitFetch = async (info) => {
+// fetch from 'api/submit , change, create'
+const userFetch = async(info, method) => {
     try {
-        const response = await fetch('http://localhost:5000/api/submit', {
+        const response = await fetch(`http://localhost:5000/api/${method}`, {
             method : 'POST',
             headers : {
                 'Content-type' : 'application/json',
@@ -15,20 +15,20 @@ const submitFetch = async (info) => {
     }
 }
 
-// fetch from '/api/create'
-const createFetch = async (info) => {
+// fetch info of users
+const getFetch = async(info) => {
     try {
-        const response = await fetch('http://localhost:5000/api/create', {
-            method : 'POST',
+        const response = await fetch(`http://localhost:5000/api/users`, {
+            method : 'GET',
             headers : {
                 'Content-type' : 'application/json',
                 'Accept' : 'application/json'
             },
-            body : JSON.stringify(info)
+            body : JSON.stringify(info),
         })
         return response.json()
     } catch (error) {
-        console.log(error)
+        console.log()
     }
 }
 
@@ -36,23 +36,6 @@ const createFetch = async (info) => {
 const createInfo = {
         username : 'nan',
         password : '123'
-}
-
-// fetch from '/api/change'
-const changeFetch = async(info) => {
-    try {
-        const response = await fetch('http://localhost:5000/api/change', {
-            method : 'POST',
-            headers : {
-                'Content-type' : 'application/json',
-                'Accept' : 'application/json'
-            },
-            body : JSON.stringify(info)
-        })
-        return response.json()
-    } catch (error) {
-        console.log(error)
-    }
 }
 
 // input example of '/api/change'
@@ -72,15 +55,26 @@ const submitMethod = () => {
             username : usernameValue,
             password : passwordValue
         }
-        const response = await submitFetch(info)
+        const response = await userFetch(info, 'submit')
         if(response.valid === true) {
             console.log('verify user : correct')
+            // use localstorage to parse userid and redirect to index.html
+            try {
+                const responseGet = await getFetch()
+                const user = responseGet.find(user => (user.username === usernameValue && user.password === passwordValue))
+                if(user !== -1) {
+                    const userId = user.id
+                    localStorage.setItem('userId', userId)
+                    // redirect to index.html
+                    window.location.href = './index.html' 
+                }
+            } catch (error) {
+                console.log(error)
+            }
         } else {
             console.log('incorrect')
         }
     })
 }
 
-// console.log(createFetch(createInfo))
-// console.log(changeFetch(changeInfo))
 submitMethod()
