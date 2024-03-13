@@ -105,6 +105,11 @@ app.post('/api/change', (req, res) => {
     }
 })
 
+// resolve get all userdata
+app.get(`/api/userdata/gets`, (req, res) => {
+    res.status(200).send(userdata)
+})
+
 // resolve get userdata
 app.get(`/api/userdata/get/:id`, (req, res) => {
     let validUserData = userdata.find(user => {
@@ -144,41 +149,40 @@ app.post(`/api/userdata/add/:id`, (req, res) => {
 
 // resolve change userdata
 app.post(`/api/userdata/change/:id`, (req, res) => {
-    let validUserData = userdata.find(user => {
-        if (parseInt(req.params.id) === user.id) {
-            return user.data.find(element => {
-                if(req.body.data.dataId === element.dataId) {
-                    element.dataContent.updatetime = moment()
-                    element.dataContent.content = req.body.data.dataContent.content
-                    element.dataContent.importance = req.body.data.dataContent.importance
-                    return user.data
-                }
-            })
+    const userId = parseInt(req.params.id)
+    const userIndex = userdata.find(user => user.id === userId)
+    if(userIndex !== -1) {
+        const dataIndex = userIndex.data.findIndex(element => element.dataId === req.body.data.dataId)
+        if(dataIndex !== -1) {
+            const dataContent = userIndex.data[dataIndex].dataContent
+            dataContent.updatetime = moment()
+            dataContent.content = req.body.data.dataContent.content
+            dataContent.importance = req.body.data.dataContent.importance
+            res.status(200).send({ valid: true, method: '/api/userdata/change' })
+        } else {
+            res.status(400).send({ valid: false, method: '/api/userdata/change', message: 'Data not found' })
         }
-    })
-    if(validUserData) {
-        res.status(200).send({ valid : true, method : '/api/userdata/change'})
     } else {
-        res.status(400).send({ valid : false, method : '/api/userdata/change'})
+        res.status(400).send({ valid: false, method: '/api/userdata/remove', message: 'User not found' })
     }
 })
 
 // resolve remove userdata
 app.post(`/api/userdata/remove/:id`, (req, res) => {
-    let validUserData = userdata.find(user => {
-        if(parseInt(req.params.id) === user.id) {
-            return user.data.find(element => {
-                if(element.dataId === req.body.data.dataId) {
-                    // delete one
-                    user.data.splice(element, 1)
-                    return user.data
-                }
+    const userId = parseInt(req.params.id)
+    const userIndex = userdata.find(user => user.id === userId)
+    if(userIndex !== -1) {
+        const dataIndex = userIndex.data.findIndex(element => element.dataId === req.body.data.dataId)
+        if(dataIndex !== -1) {
+            userIndex.data.splice(dataIndex, 1)
+            userIndex.data.forEach((element, index) => {
+                element.dataId = index
             })
+            res.status(200).send({ valid: true, method: '/api/userdata/remove' })
+        } else {
+            res.status(400).send({ valid: false, method: '/api/userdata/remove', message: 'Data not found' })
         }
-    })
-    if(validUserData) {
-        res.status(200).send({ valid : true , method : '/api/userdata/remove'})
     } else {
-        res.status(400).send({ valid : false , method : '/api/userdata/remove'})
+        res.status(400).send({ valid: false, method: '/api/userdata/remove', message: 'User not found' })
     }
 })
