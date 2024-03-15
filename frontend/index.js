@@ -115,12 +115,12 @@ const methodsAreaFunc = async (info, index, block) => {
         modifyBtn.addEventListener('click', async (e) => {
             e.preventDefault()
             // modify content
-            const contentElement = document.getElementById('content')
+            const contentElement = document.getElementById(`content_${index}`)
             contentElement.innerHTML = `
-        <input id="contentValue_${index}" type="text" placeholder="input new"/>
-        `
+            <input id="contentValue_${index}" type="text" placeholder="input new"/>
+            `
             // modify importance
-            const importanceElement = document.getElementById('importance')
+            const importanceElement = document.getElementById(`importance_${index}`)
             importanceElement.innerHTML = `
         <select name="levels" id='levelSelect_${index}'>
             <option value="">--Choose Importance--</option>
@@ -166,8 +166,8 @@ const methodsAreaFunc = async (info, index, block) => {
 const getDataList = async (info) => {
     try {
         const container = document.getElementById('container')
-        const response = await fetchGetUserInfo(info)
         // initailize
+        const response = await fetchGetUserInfo(info)
         response.data.forEach(async element => {
             let index = response.data.indexOf(element)
             const dataBlock = document.createElement('div')
@@ -176,16 +176,17 @@ const getDataList = async (info) => {
             let content = element.dataContent.content
             let importance = element.dataContent.importance
             dataBlock.innerHTML = `
-            <span> ${updateTime} </span>
-            <span id='content'> ${content} </span>
-            <span id='importance'> ${importance} </span> 
+                <span> ${updateTime} </span>
+                <span id='content_${index}'> ${content} </span>
+                <span id='importance_${index}'> ${importance} </span> 
             `
             // user methodAreaFunc
             methodsAreaFunc(info, index, dataBlock)
             // append to container
             container.appendChild(dataBlock)
         })
-    } catch (error) {
+    }
+    catch (error) {
         console.log(error)
     }
 }
@@ -258,7 +259,7 @@ const addInDataList = async (info) => {
 // get userId from localStorage
 const userId = localStorage.getItem('userId')
 const info = {
-    id : userId,
+    id: userId,
 }
 
 // execute

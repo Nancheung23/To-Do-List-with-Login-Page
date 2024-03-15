@@ -34,7 +34,7 @@ const userdata = [
                 dataId: 0,
                 dataContent: {
                     updatetime: moment(),
-                    content: 'Finish web development homework!',
+                    content: 'Admin Template',
                     importance: 'very important!'
                 }
             },
@@ -45,6 +45,17 @@ const userdata = [
 // resolve login info
 app.get('/api/users', (req, res) => {
     res.status(200).send(userinfo)
+})
+
+// resolve get single user
+app.get('/api/user/:id', (req, res) => {
+    const userId = parseInt(req.params.id)
+    const user = userinfo.find(user => user.id === userId)
+    if (user !== -1) {
+        res.status(200).send({ valid: true, info: user })
+    } else {
+        res.status(400).send({ valid: false, info: "invalid user" })
+    }
 })
 
 // resolve login submit
@@ -58,7 +69,7 @@ app.post('/api/submit', (req, res) => {
     if (validUser) {
         res.status(200).send({ valid: true, info: { username: req.body.username, password: req.body.password } })
     } else {
-        res.status(400).send({ valid: false, method : '/api/submit' })
+        res.status(400).send({ valid: false, method: '/api/submit' })
     }
 })
 
@@ -68,11 +79,11 @@ app.post('/api/create', (req, res) => {
     const name = req.body.username
     const password = req.body.password
     let validUser = userinfo.find(user => {
-        if(user.username === name) {
+        if (user.username === name) {
             return user
         }
     })
-    if(validUser) {
+    if (validUser) {
         res.status(400).send({ valid: false, info: `Server: user already exists::${req.body.username}` })
     } else {
         const user = {
@@ -81,6 +92,11 @@ app.post('/api/create', (req, res) => {
             password: password
         }
         userinfo.push(user)
+        const newUserData = {
+            id: user.id,
+            data: [],
+        }
+        userdata.push(newUserData)
         const newLength = userinfo.length
         if ((newLength - length) === 1) {
             res.status(200).send({ valid: true, info: 'Server: add user successfully' })
@@ -118,9 +134,19 @@ app.get(`/api/userdata/get/:id`, (req, res) => {
         }
     })
     if (validUserData) {
+        if (validUserData.data.length === 0) {
+            // initialize
+            validUserData.data.push({
+                dataId: 0,
+                "dataContent": {
+                    "content": "This is an example",
+                    "importance": "important",
+                }
+            })
+        }
         res.status(200).send(validUserData)
     } else {
-        res.status(400).send({ valid: false, method : '/api/userdata/get'})
+        res.status(400).send({ valid: false, method: '/api/userdata/get' })
     }
 })
 
@@ -131,19 +157,20 @@ app.post(`/api/userdata/add/:id`, (req, res) => {
             return user
         }
     })
-    if(validUserData) {
+    if (validUserData) {
         const newData = {
-            dataId : validUserData.data.length,
-            dataContent : {
-                updatetime : moment(),
-                content : req.body.data[0].dataContent.content,
-                importance : req.body.data[0].dataContent.importance,
+            dataId: validUserData.data.length,
+            dataContent: {
+                updatetime: moment(),
+                content: req.body.data[0].dataContent.content,
+                importance: req.body.data[0].dataContent.importance,
             }
         }
         validUserData.data.push(newData)
-        res.status(200).send({ valid : true, method : '/api/userdata/add'})
+        res.status(200).send({ valid: true, method: '/api/userdata/add' })
     } else {
-        res.status(400).send({ valid : false, method : '/api/userdata/add'})
+
+        res.status(400).send({ valid: false, method: '/api/userdata/add' })
     }
 })
 
@@ -151,9 +178,9 @@ app.post(`/api/userdata/add/:id`, (req, res) => {
 app.post(`/api/userdata/change/:id`, (req, res) => {
     const userId = parseInt(req.params.id)
     const userIndex = userdata.find(user => user.id === userId)
-    if(userIndex !== -1) {
+    if (userIndex !== -1) {
         const dataIndex = userIndex.data.findIndex(element => element.dataId === req.body.data.dataId)
-        if(dataIndex !== -1) {
+        if (dataIndex !== -1) {
             const dataContent = userIndex.data[dataIndex].dataContent
             dataContent.updatetime = moment()
             dataContent.content = req.body.data.dataContent.content
@@ -171,9 +198,9 @@ app.post(`/api/userdata/change/:id`, (req, res) => {
 app.post(`/api/userdata/remove/:id`, (req, res) => {
     const userId = parseInt(req.params.id)
     const userIndex = userdata.find(user => user.id === userId)
-    if(userIndex !== -1) {
+    if (userIndex !== -1) {
         const dataIndex = userIndex.data.findIndex(element => element.dataId === req.body.data.dataId)
-        if(dataIndex !== -1) {
+        if (dataIndex !== -1) {
             userIndex.data.splice(dataIndex, 1)
             userIndex.data.forEach((element, index) => {
                 element.dataId = index
