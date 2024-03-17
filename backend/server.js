@@ -51,7 +51,7 @@ app.get('/api/users', (req, res) => {
 app.get('/api/user/:id', (req, res) => {
     const userId = parseInt(req.params.id)
     const user = userinfo.find(user => user.id === userId)
-    if (user !== -1) {
+    if (user) {
         res.status(200).send({ valid: true, info: user })
     } else {
         res.status(400).send({ valid: false, info: "invalid user" })
@@ -106,7 +106,7 @@ app.post('/api/create', (req, res) => {
     }
 })
 
-// resolve login change password (need password verification)
+// resolve login change password 
 app.post('/api/change', (req, res) => {
     let validUser = userinfo.find(user => {
         if (user.username === req.body.username) {
@@ -177,11 +177,11 @@ app.post(`/api/userdata/add/:id`, (req, res) => {
 // resolve change userdata
 app.post(`/api/userdata/change/:id`, (req, res) => {
     const userId = parseInt(req.params.id)
-    const userIndex = userdata.find(user => user.id === userId)
-    if (userIndex !== -1) {
-        const dataIndex = userIndex.data.findIndex(element => element.dataId === req.body.data.dataId)
+    const user = userdata.find(user => user.id === userId)
+    if (user) {
+        const dataIndex = user.data.findIndex(element => element.dataId === req.body.data.dataId)
         if (dataIndex !== -1) {
-            const dataContent = userIndex.data[dataIndex].dataContent
+            const dataContent = user.data[dataIndex].dataContent
             dataContent.updatetime = moment()
             dataContent.content = req.body.data.dataContent.content
             dataContent.importance = req.body.data.dataContent.importance
@@ -197,12 +197,12 @@ app.post(`/api/userdata/change/:id`, (req, res) => {
 // resolve remove userdata
 app.post(`/api/userdata/remove/:id`, (req, res) => {
     const userId = parseInt(req.params.id)
-    const userIndex = userdata.find(user => user.id === userId)
-    if (userIndex !== -1) {
-        const dataIndex = userIndex.data.findIndex(element => element.dataId === req.body.data.dataId)
+    const user = userdata.find(user => user.id === userId)
+    if (user) {
+        const dataIndex = user.data.findIndex(element => element.dataId === req.body.data.dataId)
         if (dataIndex !== -1) {
-            userIndex.data.splice(dataIndex, 1)
-            userIndex.data.forEach((element, index) => {
+            user.data.splice(dataIndex, 1)
+            user.data.forEach((element, index) => {
                 element.dataId = index
             })
             res.status(200).send({ valid: true, method: '/api/userdata/remove' })

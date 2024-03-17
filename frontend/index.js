@@ -165,6 +165,26 @@ const methodsAreaFunc = async (info, index, block) => {
 // load userinfo to webpage
 const getDataList = async (info) => {
     try {
+        const url = `http://localhost:5000/api/user/${info.id}`
+        try {
+            const userinfoResponse = await fetch(url, {
+                method : 'GET',
+                headers : {
+                    'Content-type' :  'application/json',
+                    'Accept' : 'application/json'
+                }
+            })
+            if(userinfoResponse.status === 200) {
+                const data = await userinfoResponse.json()
+                const username = data.info.username
+                const welcome = document.getElementById('welcome')
+                welcome.innerHTML = `<span>Welcome, user ${username} !</span>`
+            } else {
+                console.log('Incorrect fetch')
+            }
+        } catch (error) {
+            console.log(error)
+        }
         const container = document.getElementById('container')
         // initailize
         const response = await fetchGetUserInfo(info)
