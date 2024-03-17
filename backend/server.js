@@ -33,7 +33,7 @@ const userdata = [
             {
                 dataId: 0,
                 dataContent: {
-                    updatetime: moment(),
+                    updatetime: moment().format('YYYY-mm-DD HH:MM:SS'),
                     content: 'Admin Template',
                     importance: 'very important!'
                 }
@@ -161,7 +161,7 @@ app.post(`/api/userdata/add/:id`, (req, res) => {
         const newData = {
             dataId: validUserData.data.length,
             dataContent: {
-                updatetime: moment(),
+                updatetime: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
                 content: req.body.data[0].dataContent.content,
                 importance: req.body.data[0].dataContent.importance,
             }
@@ -182,7 +182,7 @@ app.post(`/api/userdata/change/:id`, (req, res) => {
         const dataIndex = user.data.findIndex(element => element.dataId === req.body.data.dataId)
         if (dataIndex !== -1) {
             const dataContent = user.data[dataIndex].dataContent
-            dataContent.updatetime = moment()
+            dataContent.updatetime = moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
             dataContent.content = req.body.data.dataContent.content
             dataContent.importance = req.body.data.dataContent.importance
             res.status(200).send({ valid: true, method: '/api/userdata/change' })

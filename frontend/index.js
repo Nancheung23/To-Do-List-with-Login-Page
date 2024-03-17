@@ -192,7 +192,8 @@ const getDataList = async (info) => {
             let index = response.data.indexOf(element)
             const dataBlock = document.createElement('div')
             dataBlock.id = `dataBlock_${index}`
-            const updateTime = moment(element.dataContent.updateTime)
+            dataBlock.classList.add('dataBlock')
+            const updateTime = moment(element.dataContent.updateTime).format("dddd, MMMM Do YYYY, h:mm:ss a")
             let content = element.dataContent.content
             let importance = element.dataContent.importance
             dataBlock.innerHTML = `
@@ -227,6 +228,7 @@ const addInDataList = async (info) => {
             addBtn.addEventListener('click', async () => {
                 const uniqueId = new Date().getTime();
                 const dataBlock = document.createElement('div')
+                dataBlock.classList.add('dataBlock')
                 dataBlock.innerHTML = `
                 <input id="contentValue_${uniqueId}" type="text" placeholder="write description"/>
                 <select name="levels" id='levelSelect_${uniqueId}'>
