@@ -84,7 +84,7 @@ app.post('/api/create', (req, res) => {
         }
     })
     if (validUser) {
-        res.status(400).send({ valid: false, info: `Server: user already exists::${req.body.username}` })
+        res.status(400).send({ valid: false, info: `Server: user already exists : ${req.body.username}` })
     } else {
         const user = {
             id: length,

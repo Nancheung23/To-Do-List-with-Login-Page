@@ -29,9 +29,17 @@
 }
 
 .dataBlock {
+    width: 70%;
+    height: auto;
+    margin: 10px 10px;
+    padding: 20px 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
     border-radius: 1px solid black;
-    gap: 10px;
+    gap: 20px;
+    box-shadow: 5px 5px 5px gray;
+    border: 1px solid gray;
+    border-radius: 5vh;
 }

@@ -1,3 +1,11 @@
+/* Josefin Sans */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+/* Lilita One */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lilita+One&display=swap');
+/* Changa */
+@import url('https://fonts.googleapis.com/css2?family=Changa:wght@200..800&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lilita+One&display=swap');
+
+
 * {
     margin: 0;
     padding: 0;
@@ -33,7 +41,7 @@ body {
     max-width: 66%;
     width: 30%;
     height: 50%;
-    padding: 5vh 3vw;
+    padding: 3vh 1vw;
     line-height: 5vh;
     box-shadow: 0.1vw 0.1vw 0.1vw rgba(238, 238, 238, 0.2);
     background-color: rgba(238, 238, 238, 0.15);
@@ -76,6 +84,11 @@ input {
     text-align: center;
 }
 
+.hint {
+    color: red;
+    text-shadow: 1px 1px 2px black;
+}
+
 #username,
 #password,
 #password_repeat,
@@ -89,28 +102,29 @@ input {
     font-weight: light;
     font-style: normal;
     font-size: 1.5rem;
-    background-color: rgba(169, 169, 169, 0.4);
 }
 
 #submitBtn {
     width: 8vw;
     height: 4vh;
-    border-radius: 1vw;
+    border-radius: 0.7vw;
     margin: 2vh 2vw;
     /* font */
     font-family: "Lilita One", sans-serif;
-    font-weight: lighter;
+    font-weight: light;
     font-style: normal;
     line-height: 4vh;
-    font-size: 1rem;
-    background-color: rgba(169, 169, 169, 0.4);
+    font-size: 1.8rem;
+    background-color: rgba(28, 190, 190, 0.4);
     color: rgb(255, 255, 255);
     transition: 0.3s ease;
 }
 
 #submitBtn:hover {
     transform: scale(1.1, 1.1);
+    background-color: rgba(17, 115, 115, 0.4);
 }
+
 
 .links {
     display: flex;
@@ -133,6 +147,10 @@ input {
 .links>a>span:hover {
     text-decoration: dotted;
     color: rgb(10, 103, 224);
+}
+
+input:-internal-autofill-selected {
+    background-color: white !important;
 }
 
 @media screen and (max-width : 500px) {

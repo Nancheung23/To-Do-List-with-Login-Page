@@ -197,7 +197,7 @@ const getDataList = async (info) => {
             let content = element.dataContent.content
             let importance = element.dataContent.importance
             dataBlock.innerHTML = `
-                <span> ${updateTime} </span>
+                <span class='time'> ${updateTime} </span>
                 <span id='content_${index}'> ${content} </span>
                 <span id='importance_${index}'> ${importance} </span> 
             `

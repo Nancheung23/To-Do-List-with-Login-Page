@@ -32,6 +32,7 @@ submitBtn.addEventListener('click', async(e) => {
     const newPasswordValue = document.getElementById('newPassword').value
     submitBtn.insertAdjacentHTML('beforebegin', `<span id='alert'></span>`)
     const alert = document.getElementById('alert')
+    alert.classList.add('hint')
     if(newPasswordValue.length <= 6) {
         alert.innerText = `New Password can't be too short.`
     } else if(newPasswordValue === passwordValue) {

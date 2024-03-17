@@ -39,6 +39,8 @@ const createFetch = async (info) => {
             } catch (error) {
                 console.log(error)
             }
+        } else {
+            return response.json()
         }
     } catch (error) {
         console.log(error)
@@ -64,6 +66,7 @@ const submitNewUser = () => {
         const repeatPasswordValue = document.getElementById('password_repeat').value
         submitBtn.insertAdjacentHTML('beforebegin', `<span id='alert'></span>`)
         const alert = document.getElementById('alert')
+        alert.classList.add('hint')
         // judge username and password
         if (usernameValue.length <= 4) {
             alert.innerText = `Username can't be too short.`
@@ -76,10 +79,13 @@ const submitNewUser = () => {
         } else {
             const info = {
                 username: usernameValue,
-                password: passwordValue
+                password: passwordValue 
             }
             try {
-                await createFetch(info)
+                const response = await createFetch(info)
+                if(!response.valid) {
+                    alert.innerText = `${response.info}`
+                }
             } catch (error) {
                 console.log(error)
             }
