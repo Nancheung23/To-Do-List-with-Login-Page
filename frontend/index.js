@@ -185,6 +185,16 @@ const getDataList = async (info) => {
         } catch (error) {
             console.log(error)
         }
+        const backBtn = document.querySelectorAll('.utility')[0]
+        backBtn.insertAdjacentHTML('beforebegin', `<span id='alert'></span>`)
+        const alert = document.getElementById('alert')
+        backBtn.addEventListener('click', () => {
+            alert.innerText = 'redirecting to mainpage'
+            alert.classList.toggle('alertBox')
+            setTimeout(() => {
+                window.location.href = './login.html'
+            }, 1500)
+        })
         const container = document.getElementById('container')
         // initailize
         const response = await fetchGetUserInfo(info)

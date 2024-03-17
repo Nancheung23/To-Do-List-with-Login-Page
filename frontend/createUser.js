@@ -16,7 +16,7 @@ const getFetch = async (info) => {
 }
 
 // fetch create user
-const createFetch = async (info) => {
+const createFetch = async (info, alertBox) => {
     try {
         const response = await fetch('http://localhost:5000/api/create', {
             method: 'POST',
@@ -29,12 +29,15 @@ const createFetch = async (info) => {
         if (response.status === 200) {
             try {
                 const responseGet = await getFetch()
-                console.log(responseGet)
                 const user = responseGet.find(user => (user.username === info.username && user.password === info.password))
                 if (user !== -1) {
                     const userId = user.id
-                    localStorage.setItem('userId', userId)
-                    window.location.href = './index.html'
+                    alertBox.classList.toggle('alertBox')
+                    alertBox.innerText = 'Successful operation, redirecting...'
+                    setTimeout(() => {
+                        localStorage.setItem('userId', userId)
+                        window.location.href = './index.html'
+                    }, 1000)
                 }
             } catch (error) {
                 console.log(error)
@@ -82,7 +85,7 @@ const submitNewUser = () => {
                 password: passwordValue 
             }
             try {
-                const response = await createFetch(info)
+                const response = await createFetch(info, alert)
                 if(!response.valid) {
                     alert.innerText = `${response.info}`
                 }

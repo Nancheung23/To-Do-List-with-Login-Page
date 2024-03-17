@@ -58,8 +58,12 @@ submitBtn.addEventListener('click', async(e) => {
                     body : JSON.stringify(newInfo)
                 })
                 if(response.status === 200) {
-                    localStorage.setItem('userId', idValue)
-                    window.location.href = './index.html'
+                    alert.classList.toggle('alertBox')
+                    alert.innerText = 'Successful operation, redirecting...'
+                    setTimeout(() => {
+                        localStorage.setItem('userId', idValue)
+                        window.location.href = './index.html'
+                    }, 1000)
                 }
             } else {
                 alert.innerText = `Incorrect username or password, please try again!`

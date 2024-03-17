@@ -153,6 +153,23 @@ input:-internal-autofill-selected {
     background-color: white !important;
 }
 
+.alertBox {
+    position: fixed; 
+    z-index: 1000;  
+    top: 50%;       
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    background-color: white; 
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 300px; 
+    text-align: center;
+    color: rgb(15, 118, 236);
+    font-size: large;
+}
+
 @media screen and (max-width : 500px) {
     body {
         background-size: contain;
