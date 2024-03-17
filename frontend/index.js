@@ -268,7 +268,7 @@ const addInDataList = async (info) => {
                     if (response.valid === true) {
                         const data = await fetchGetUserInfo(info)
                         const element = data.data[data.data.length - 1]
-                        const updateTime = moment(element.dataContent.updateTime)
+                        const updateTime = moment(element.dataContent.updateTime).format("dddd, MMMM Do YYYY, h:mm:ss a")
                         let content = element.dataContent.content
                         let importance = element.dataContent.importance
                         dataBlock.innerHTML = `
@@ -281,7 +281,7 @@ const addInDataList = async (info) => {
                 })
             })
         } catch (error) {
-
+            console.log(error)
         }
     } catch (error) {
         console.log(error)

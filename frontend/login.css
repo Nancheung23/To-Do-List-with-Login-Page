@@ -16,7 +16,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url('../asset/img/login.jpg');
+    background-image: url('../asset/img/login.png');
     background-position: center;
     background-size: cover;
 }
@@ -30,7 +30,7 @@ body {
     /* font */
     font-family: "Josefin Sans", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 400;
+    font-weight: 200;
     font-style: normal;
     color: white;
     text-shadow: 0.08rem 0.08rem 0.2rem gainsboro;
@@ -104,6 +104,12 @@ input {
     font-size: 1.5rem;
 }
 
+.divider {
+    width: 20vw;
+    border-bottom: 2px solid rgb(255, 255, 255);
+    margin: 20px 10px 0 10px;
+}
+
 #submitBtn {
     width: 8vw;
     height: 4vh;
@@ -115,14 +121,14 @@ input {
     font-style: normal;
     line-height: 4vh;
     font-size: 1.8rem;
-    background-color: rgba(28, 190, 190, 0.4);
+    background-color: rgba(28, 190, 190, 0.8);
     color: rgb(255, 255, 255);
     transition: 0.3s ease;
 }
 
 #submitBtn:hover {
     transform: scale(1.1, 1.1);
-    background-color: rgba(17, 115, 115, 0.4);
+    background-color: rgba(17, 115, 115, 1);
 }
 
 
@@ -146,7 +152,7 @@ input {
 
 .links>a>span:hover {
     text-decoration: dotted;
-    color: rgb(10, 103, 224);
+    color: rgb(193, 180, 180);
 }
 
 input:-internal-autofill-selected {
@@ -154,17 +160,17 @@ input:-internal-autofill-selected {
 }
 
 .alertBox {
-    position: fixed; 
-    z-index: 1000;  
-    top: 50%;       
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); 
-    background-color: white; 
+    transform: translate(-50%, -50%);
+    background-color: white;
     padding: 10px;
     border: 1px solid #000;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
-    width: 300px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
     text-align: center;
     color: rgb(15, 118, 236);
     font-size: large;
@@ -196,7 +202,7 @@ input:-internal-autofill-selected {
     }
 }
 
-@media screen and (max-width : 1070px){
+@media screen and (max-width : 1070px) {
     body {
         background-size: cover;
     }
