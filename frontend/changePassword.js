@@ -59,7 +59,7 @@ submitBtn.addEventListener('click', async(e) => {
                 })
                 if(response.status === 200) {
                     alert.classList.toggle('alertBox')
-                    alert.innerText = 'Successful operation, redirecting...'
+                    alert.innerText = 'Successful modification, redirecting...'
                     setTimeout(() => {
                         localStorage.setItem('userId', idValue)
                         window.location.href = './index.html'

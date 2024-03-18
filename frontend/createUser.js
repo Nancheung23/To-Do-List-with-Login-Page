@@ -33,7 +33,7 @@ const createFetch = async (info, alertBox) => {
                 if (user !== -1) {
                     const userId = user.id
                     alertBox.classList.toggle('alertBox')
-                    alertBox.innerText = 'Successful operation, redirecting...'
+                    alertBox.innerText = 'Successful registration, redirecting...'
                     setTimeout(() => {
                         localStorage.setItem('userId', userId)
                         window.location.href = './index.html'

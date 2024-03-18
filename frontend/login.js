@@ -66,7 +66,7 @@ const submitMethod = () => {
                 const user = responseGet.find(user => (user.username === usernameValue && user.password === passwordValue))
                 if (user !== -1) {
                     alert.classList.toggle('alertBox')
-                    alert.innerText = 'Successful operation, redirecting...'
+                    alert.innerText = 'Successful login, redirecting...'
                     const userId = user.id
                     setTimeout(() => {
                         localStorage.setItem('userId', userId)
