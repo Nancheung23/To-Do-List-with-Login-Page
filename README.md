@@ -5,17 +5,17 @@ Welcome to the To-Do List application - a single-page web application (SPA) that
 
 ## Features
 - **User Authentication**: Secure login, registration, and password change functionality.
-- **Task Management**: Add, remove, and modify tasks with real-time updates.
+- **Task Management**: Add, remove, and modify tasks with real-time updates. (with animation, date formatting)
 - **Dynamic Content**: Utilize AJAX calls for a seamless user experience without page reloads.
-- **Responsive Design**: Compatible with various devices and screen sizes.
-- **Color-Coded Importance**: Easily identify tasks by their level of importance.
+- **Responsive Design**: Compatible with various devices and screen sizes. (max-width: 500px / 1070px)
+- **Color-Coded Importance**: Easily identify tasks by their level of importance. (eg. Very Important : red)
 - **Modern JavaScript**: Asynchronous JavaScript (async/await) for efficient server communication.
-- **Express Backend**: A robust Node.js/Express server that handles API requests and serves user data.
+- **Express Backend**: A robust Node.js/Express server that handles API requests and serves user data. (provide multi-functional interfaces)
 
 ## Technologies
 - **Frontend**: HTML, CSS, Vanilla JavaScript
 - **Backend**: Node.js, Express.js
-- **Database Simulation**: In-memory JavaScript object
+- **Database Simulation**: In-memory JavaScript object (with different userId and dataId)
 - **Third-Party Libraries**: Body-parser, Cors, Moment.js for date formatting
 
 ## Project Structure
@@ -41,7 +41,7 @@ To get started with this project, clone the repository and install the dependenc
 ```bash
 git clone git@github.com:Nancheung23/To-Do-List-with-Login-Page.git
 cd backend
-npm install
+npm install express body-parser cors moment
 ```
 
 ### Running the Server
