@@ -179,10 +179,15 @@ input:-internal-autofill-selected {
 @media screen and (max-width : 500px) {
     body {
         background-size: contain;
+        background-image: url('../asset/img/login-vertical.png');
     }
 
     .title {
         margin-top: 30%;
+    }
+
+    .title>h1 {
+        font-size: 2rem;
     }
 
     .loginArea {
@@ -191,20 +196,38 @@ input:-internal-autofill-selected {
         margin-top: 10%;
     }
 
+    .loginArea>h1 {
+        font-size: 2rem;
+    }
+
+    .loginForm>label {
+        font-size: 1.2rem;
+    }
+
+    .divider {
+        width: 50vw;
+    }
+
     #username,
     #password {
         width: 60vw;
+        font-size: 1.2rem;
     }
 
     #submitBtn {
         width: 30vw;
         border-radius: 5vh;
     }
+
+    .links>a>span {
+        font-size: 1.1rem;
+    }
 }
 
 @media screen and (max-width : 1070px) {
     body {
         background-size: cover;
+        background-image: url('../asset/img/login-vertical.png');
     }
 
     label {
@@ -218,7 +241,7 @@ input:-internal-autofill-selected {
     }
 
     .loginArea>h1 {
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
     .title {

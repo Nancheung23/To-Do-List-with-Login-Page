@@ -152,7 +152,7 @@ body {
     /* fade-out */
     opacity: 1;
     transition: opacity 1s ease-in-out,
-    margin-top 1s ease-in-out;
+        margin-top 1s ease-in-out;
 }
 
 .alertBox {
@@ -231,10 +231,90 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .fade-in {
     animation: fadeIn 1s ease-in-out;
+}
+
+@media screen and (max-width : 500px) {
+    body {
+        background-size: cover;
+        background-image: url('../asset/img/mainpage-vertical.png');
+    }
+
+    .utilities .title,
+    .utilities .utility a {
+        font-size: 1.2rem;
+    }
+
+    .utilities #welcome {
+        font-size: 0.5rem;
+    }
+
+    .dataBlock {
+        width: 90%;
+        height: 100%;
+    }
+
+    .dataBlock .time {
+        font-size: 0.6rem;
+        text-shadow: none;
+    }
+
+    .dataBlock .content,
+    .dataBlock .importance {
+        font-size: 1rem;
+    }
+
+    .buttons {
+        width: 8vw;
+    }
+
+    .buttons>svg {
+        width: 4vw;
+    }
+
+    #addBtn {
+        margin: 2vh auto;
+        font-size: 1rem;
+        width: 20vw;
+        height: 5vh;
+        line-height: 5vh;
+    }
+
+    #addBtn>svg {
+        width: 5vw;
+    }
+
+    .inputs {
+        margin: 1vh -2vw;
+        width: 40vw;
+        height: 3vh;
+        font-size: 0.7rem;
+    }
+
+    .submit {
+        margin: 1vh auto;
+        width: 20vw;
+        font-size: 1rem;
+    }
+
+    .content {
+        overflow-wrap: break-word;
+    }
+}
+
+@media screen and (max-width : 1070px) {
+    body {
+        background-size: cover;
+        background-image: url('../asset/img/mainpage-vertical.png');
+    }
 }

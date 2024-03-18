@@ -135,6 +135,11 @@ const methodsAreaFunc = async (info, index, block) => {
             document.getElementById(`levelSelect_${index}`).classList.add('inputs')
             document.getElementById(`submitChange_${index}`).classList.add('submit')
             const submitBtn = document.getElementById(`submitChange_${index}`)
+            if(window.innerWidth < 500) {
+                block.querySelector('.time').style.display = 'none'
+                block.style.flexDirection = 'column'
+                submitBtn.style.display = 'block'
+            }
             submitBtn.addEventListener('click', async (e) => {
                 e.preventDefault()
                 let changeInfo = {
@@ -246,12 +251,12 @@ const addInDataList = async (info) => {
         const container = document.getElementById('container')
         const addArea = document.createElement('div')
         addArea.innerHTML = `
-        <button id="addBtn" name="addElement" class="add-button">
+        <div id="addBtn" name="addElement" class="add-button">
         <svg xmlns="http://www.w3.org/2000/svg" width="1.5vw"  fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
         </svg>
         Add
-        </button>
+        </div>
         `
         container.appendChild(addArea)
         const addBtn = document.getElementById('addBtn')
@@ -274,6 +279,9 @@ const addInDataList = async (info) => {
                 <input id ="submitChange_${uniqueId}" class="submit" type="button" name="submit" value="confirm"/>
                 `
                 container.appendChild(dataBlock)
+                if(window.innerWidth < 500) {
+                    dataBlock.style.flexDirection = 'column'
+                }
                 dataBlock.classList.add('fade-in')
                 const submitBtn = document.getElementById(`submitChange_${uniqueId}`)
                 submitBtn.addEventListener('click', async (e) => {
